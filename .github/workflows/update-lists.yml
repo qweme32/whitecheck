@@ -13,26 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Create dist/data directory
-        run: mkdir -p dist/data
-      
       - name: Download white list
         run: |
           TIMESTAMP=$(date +%s)
-          curl -L "https://raw.githubusercontent.com/hxehex/russia-mobile-internet-whitelist/refs/heads/main/cidrwhitelist.txt?invalidateCache=${TIMESTAMP}" -o dist/data/white.lst
+          curl -L "https://raw.githubusercontent.com/hxehex/russia-mobile-internet-whitelist/refs/heads/main/cidrwhitelist.txt?invalidateCache=${TIMESTAMP}" -o docs/data/white.lst
       
       - name: Download black list
         run: |
           TIMESTAMP=$(date +%s)
-          curl -L "https://antifilter.download/list/allyouneed.lst?invalidateCache=${TIMESTAMP}" -o dist/data/black.lst
+          curl -L "https://antifilter.download/list/allyouneed.lst?invalidateCache=${TIMESTAMP}" -o docs/data/black.lst
       
       - name: Update timestamp
         run: |
-          date +%s > dist/data/update.time
+          date +%s > docs/data/update.time
       
       - name: Commit and push if changed
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add dist/data/white.lst dist/data/black.lst dist/data/update.time
+          git add docs/data/white.lst docs/data/black.lst docs/data/update.time
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update lists - $(date -u +"%Y-%m-%d %H:%M:%S UTC")" && git push)
