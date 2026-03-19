@@ -71,17 +71,17 @@ onMounted(async () => {
   setLoad("loading metadata", 10);
   updatedAt.value = new Date(
     parseInt(
-      (await (await fetch(`/data/update.time?invalidateCache=${Date.now()}`)).text()
+      (await (await fetch(`/whitecheck/data/update.time?invalidateCache=${Date.now()}`)).text()
     ).trim()) * 1000
   )
   setLoad("loading black.lst", 20);
-  const blackContent = await (await fetch(`/data/black.lst?invalidateCache=${Date.now()}`)).text()
+  const blackContent = await (await fetch(`/whitecheck/data/black.lst?invalidateCache=${Date.now()}`)).text()
   setLoad("parsing black.lst", 40);
   const black = parseLst(blackContent)
   blackCidrs.value = black.parsed;
   totalBlack.value = black.total;
   setLoad("loading white.lst", 60);
-  const whiteContent = await (await fetch(`/data/white.lst?invalidateCache=${Date.now()}`)).text()
+  const whiteContent = await (await fetch(`/whitecheck/data/white.lst?invalidateCache=${Date.now()}`)).text()
   setLoad("parsing white.lst", 80);
   const white = parseLst(whiteContent)
   whiteCidrs.value = white.parsed;
